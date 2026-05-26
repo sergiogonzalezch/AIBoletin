@@ -1,6 +1,6 @@
 """
 AI Daily Bulletin — Versión 100% GRATUITA
-Usa Gemini 2.5 Flash-Lite (Google AI Studio free tier: 1,000 req/día gratis)
+Usa Gemini (Google AI Studio free tier)
 
 Variables de entorno requeridas (GitHub Secrets):
   GEMINI_API_KEY      — API key de Google AI Studio (gratis en aistudio.google.com)
@@ -30,35 +30,25 @@ NOTION_TOKEN       = os.environ["NOTION_TOKEN"]
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "0916313650de4b1e945857fe95734269")
 HOURS_LOOKBACK     = int(os.environ.get("HOURS_LOOKBACK", "26"))
 MAX_PER_FEED       = int(os.environ.get("MAX_PER_FEED", "2"))
-
-# Flash-Lite = 1,000 req/día gratis (más que suficiente)
-# Cambia a "gemini-2.5-flash" si quieres más calidad (250 req/día)
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
-GEMINI_URL   = (
+GEMINI_MODEL       = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_URL         = (
     f"https://generativelanguage.googleapis.com/v1beta/models/"
     f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
 )
 
 # ── Fuentes RSS ───────────────────────────────────────────────────────────────
 RSS_FEEDS = [
-    # Papers
     {"url": "https://rss.arxiv.org/rss/cs.AI",  "source": "ArXiv",        "category": "Paper"},
     {"url": "https://rss.arxiv.org/rss/cs.LG",  "source": "ArXiv",        "category": "Paper"},
     {"url": "https://rss.arxiv.org/rss/cs.CV",  "source": "ArXiv",        "category": "Paper"},
     {"url": "https://rss.arxiv.org/rss/cs.CL",  "source": "ArXiv",        "category": "Paper"},
-
-    # Modelos y herramientas
     {"url": "https://huggingface.co/blog/feed.xml",       "source": "Hugging Face", "category": "Foundation Model"},
     {"url": "https://simonwillison.net/atom/everything/",  "source": "Blog",         "category": "Tool"},
     {"url": "https://blog.langchain.dev/rss/",             "source": "Blog",         "category": "Workflow"},
     {"url": "https://www.llamaindex.ai/blog/rss.xml",      "source": "Blog",         "category": "Workflow"},
-
-    # Labs oficiales
     {"url": "https://openai.com/blog/rss.xml",   "source": "OpenAI",    "category": "Foundation Model"},
     {"url": "https://www.anthropic.com/rss.xml", "source": "Anthropic", "category": "Foundation Model"},
     {"url": "https://mistral.ai/feed.xml",       "source": "Other",     "category": "Foundation Model"},
-
-    # Reddit — posts más votados del día
     {"url": "https://www.reddit.com/r/LocalLLaMA/.rss?limit=10&sort=hot",      "source": "Reddit", "category": "Community"},
     {"url": "https://www.reddit.com/r/MachineLearning/.rss?limit=10&sort=hot", "source": "Reddit", "category": "Community"},
     {"url": "https://www.reddit.com/r/StableDiffusion/.rss?limit=10&sort=hot", "source": "Reddit", "category": "Image Gen"},
@@ -68,8 +58,6 @@ RSS_FEEDS = [
     {"url": "https://www.reddit.com/r/AIMusic/.rss?limit=5&sort=hot",          "source": "Reddit", "category": "Audio"},
     {"url": "https://www.reddit.com/r/ollama/.rss?limit=5&sort=hot",           "source": "Reddit", "category": "Tool"},
     {"url": "https://www.reddit.com/r/FluxAI/.rss?limit=5&sort=hot",           "source": "Reddit", "category": "Image Gen"},
-
-    # Hacker News filtrado por puntos
     {"url": "https://hnrss.org/newest?q=LLM+language+model&points=50",       "source": "Other", "category": "Community"},
     {"url": "https://hnrss.org/newest?q=stable+diffusion+comfyui&points=30", "source": "Other", "category": "Image Gen"},
     {"url": "https://hnrss.org/newest?q=AI+agent+RAG&points=50",             "source": "Other", "category": "Agent"},
@@ -77,18 +65,18 @@ RSS_FEEDS = [
 
 # ── GitHub Releases ───────────────────────────────────────────────────────────
 GITHUB_REPOS = [
-    {"repo": "comfyanonymous/ComfyUI",               "category": "Image Gen",        "source": "GitHub"},
-    {"repo": "ollama/ollama",                         "category": "Tool",             "source": "GitHub"},
-    {"repo": "ggml-org/llama.cpp",                    "category": "Foundation Model", "source": "GitHub"},
-    {"repo": "huggingface/transformers",              "category": "Foundation Model", "source": "GitHub"},
-    {"repo": "LangChain-ai/langchain",                "category": "Workflow",         "source": "GitHub"},
-    {"repo": "black-forest-labs/flux",                "category": "Image Gen",        "source": "GitHub"},
-    {"repo": "unslothai/unsloth",                     "category": "Update",           "source": "GitHub"},
-    {"repo": "microsoft/autogen",                     "category": "Agent",            "source": "GitHub"},
-    {"repo": "BerriAI/litellm",                       "category": "Tool",             "source": "GitHub"},
-    {"repo": "run-llama/llama_index",                 "category": "Workflow",         "source": "GitHub"},
-    {"repo": "Wan-Video/Wan2.1",                      "category": "Video Gen",        "source": "GitHub"},
-    {"repo": "AUTOMATIC1111/stable-diffusion-webui",  "category": "Image Gen",        "source": "GitHub"},
+    {"repo": "comfyanonymous/ComfyUI",              "category": "Image Gen",        "source": "GitHub"},
+    {"repo": "ollama/ollama",                        "category": "Tool",             "source": "GitHub"},
+    {"repo": "ggml-org/llama.cpp",                   "category": "Foundation Model", "source": "GitHub"},
+    {"repo": "huggingface/transformers",             "category": "Foundation Model", "source": "GitHub"},
+    {"repo": "LangChain-ai/langchain",               "category": "Workflow",         "source": "GitHub"},
+    {"repo": "black-forest-labs/flux",               "category": "Image Gen",        "source": "GitHub"},
+    {"repo": "unslothai/unsloth",                    "category": "Update",           "source": "GitHub"},
+    {"repo": "microsoft/autogen",                    "category": "Agent",            "source": "GitHub"},
+    {"repo": "BerriAI/litellm",                      "category": "Tool",             "source": "GitHub"},
+    {"repo": "run-llama/llama_index",                "category": "Workflow",         "source": "GitHub"},
+    {"repo": "Wan-Video/Wan2.1",                     "category": "Video Gen",        "source": "GitHub"},
+    {"repo": "AUTOMATIC1111/stable-diffusion-webui", "category": "Image Gen",        "source": "GitHub"},
 ]
 
 GITHUB_HEADERS = {"Accept": "application/vnd.github+json"}
@@ -109,9 +97,7 @@ Estructura exacta:
   "tags": ["LLM","Vision","Audio","Video","Image","RAG","Agent","Multimodal","ComfyUI","Diffusion","SOTA"]
 }
 
-Relevancia → Alta: modelo SOTA nuevo, paper breakthrough, release mayor importante
-             Media: actualización, tutorial útil, discusión relevante
-             Baja: opinión, contenido sin novedad técnica"""
+Relevancia: Alta=modelo SOTA/paper breakthrough/release mayor, Media=actualización/tutorial útil, Baja=opinión/sin novedad"""
 
 
 def analyze_with_gemini(title: str, content: str, url: str, suggested_cat: str) -> Optional[dict]:
@@ -140,7 +126,6 @@ def analyze_with_gemini(title: str, content: str, url: str, suggested_cat: str) 
 
             raw = r.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
 
-            # Limpiar bloques ```json ... ``` si Gemini los incluye
             if "```" in raw:
                 for chunk in raw.split("```"):
                     chunk = chunk.strip().lstrip("json").strip()
@@ -215,7 +200,7 @@ def process_rss_feeds() -> list[dict]:
             results.append(analysis)
             log.info(f"  ✅ [{analysis.get('relevancia','?')}] {analysis.get('titulo','')[:75]}")
             count += 1
-            time.sleep(1.5)  # ~10 RPM respetando free tier
+            time.sleep(1.5)
 
     return results
 
@@ -313,6 +298,7 @@ def create_notion_page(item: dict) -> bool:
     tags  = [t for t in item.get("tags", []) if t in VALID_TAGS]
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
+    # ── Propiedad Fecha con formato correcto de Notion API ──
     props = {
         "Título":    {"title": [{"text": {"content": item.get("titulo","Sin título")[:200]}}]},
         "Categoría": {"select": {"name": CAT_MAP.get(item.get("categoria","Other"),"Update")}},
@@ -320,10 +306,9 @@ def create_notion_page(item: dict) -> bool:
         "Relevancia":{"select": {"name": item.get("relevancia","Baja")}},
         "Fuente":    {"select": {"name": SRC_MAP.get(item.get("fuente_original","Other"),"Other")}},
         "Resumen":   {"rich_text": [{"text": {"content": item.get("resumen","")[:2000]}}]},
-        "date:Fecha:start":       today,
-        "date:Fecha:is_datetime": 0,
-        "Leido":    {"checkbox": False},
-        "Guardado": {"checkbox": False},
+        "Fecha":     {"date": {"start": today}},
+        "Leido":     {"checkbox": False},
+        "Guardado":  {"checkbox": False},
     }
     if item.get("url"):
         props["URL"] = {"url": item["url"]}
@@ -339,7 +324,7 @@ def create_notion_page(item: dict) -> bool:
         )
         if r.status_code == 200:
             return True
-        log.warning(f"Notion {r.status_code}: {r.text[:200]}")
+        log.warning(f"Notion {r.status_code}: {r.text[:300]}")
         return False
     except Exception as e:
         log.warning(f"Error Notion: {e}")
@@ -365,7 +350,6 @@ def main():
     all_items.extend(gh)
     log.info(f"   → {len(gh)} releases")
 
-    # Ordenar Alta → Media → Baja
     order = {"Alta": 0, "Media": 1, "Baja": 2}
     all_items.sort(key=lambda x: order.get(x.get("relevancia", "Baja"), 2))
 
