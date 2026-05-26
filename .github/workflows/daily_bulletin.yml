@@ -1,11 +1,9 @@
 name: 🤖 AI Daily Bulletin (Free)
 
 on:
-  # 8:00 AM hora Ciudad de México (CDMX = UTC-6 → 14:00 UTC)
   schedule:
     - cron: "0 14 * * *"
 
-  # Ejecución manual desde la pestaña Actions
   workflow_dispatch:
     inputs:
       hours_lookback:
@@ -13,17 +11,18 @@ on:
         required: false
         default: "26"
       max_per_feed:
-        description: "Máximo de items por feed (default: 5)"
+        description: "Máximo de items por feed (default: 2)"
         required: false
-        default: "5"
+        default: "2"
       gemini_model:
         description: "Modelo Gemini a usar"
         required: false
         default: "gemini-2.0-flash"
         type: choice
         options:
-          - gemini-2.5-flash-lite   # 1,000 req/día gratis ← recomendado
-          - gemini-2.5-flash                       # 250 req/día gratis, más calidad
+          - gemini-2.0-flash
+          - gemini-2.5-flash-lite
+          - gemini-2.5-flash
 
 jobs:
   run-bulletin:
@@ -51,6 +50,6 @@ jobs:
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
           HOURS_LOOKBACK:     ${{ github.event.inputs.hours_lookback || '26' }}
-          MAX_PER_FEED:       ${{ github.event.inputs.max_per_feed || '5' }}
-          GEMINI_MODEL:       ${{ github.event.inputs.gemini_model || 'gemini-2.5-flash-lite' }}
+          MAX_PER_FEED:       ${{ github.event.inputs.max_per_feed || '2' }}
+          GEMINI_MODEL:       ${{ github.event.inputs.gemini_model || 'gemini-2.0-flash' }}
         run: python ai_daily_bulletin.py
