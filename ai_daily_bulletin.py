@@ -30,7 +30,7 @@ NOTION_TOKEN       = os.environ["NOTION_TOKEN"]
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "0916313650de4b1e945857fe95734269")
 HOURS_LOOKBACK     = int(os.environ.get("HOURS_LOOKBACK", "26"))
 MAX_PER_FEED       = int(os.environ.get("MAX_PER_FEED", "2"))
-GEMINI_MODEL       = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_MODEL       = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite")
 GEMINI_URL         = (
     f"https://generativelanguage.googleapis.com/v1beta/models/"
     f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
