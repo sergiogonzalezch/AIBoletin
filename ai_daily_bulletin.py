@@ -33,7 +33,7 @@ MAX_PER_FEED       = int(os.environ.get("MAX_PER_FEED", "5"))
 
 # Flash-Lite = 1,000 req/día gratis (más que suficiente)
 # Cambia a "gemini-2.5-flash" si quieres más calidad (250 req/día)
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
 GEMINI_URL   = (
     f"https://generativelanguage.googleapis.com/v1beta/models/"
     f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
