@@ -19,10 +19,10 @@ on:
       gemini_model:
         description: "Modelo Gemini a usar"
         required: false
-        default: "gemini-2.5-flash-lite-preview-06-17"
+        default: "gemini-2.5-flash-lite"
         type: choice
         options:
-          - gemini-2.5-flash-lite-preview-06-17   # 1,000 req/día gratis ← recomendado
+          - gemini-2.5-flash-lite   # 1,000 req/día gratis ← recomendado
           - gemini-2.5-flash                       # 250 req/día gratis, más calidad
 
 jobs:
@@ -52,5 +52,5 @@ jobs:
           GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
           HOURS_LOOKBACK:     ${{ github.event.inputs.hours_lookback || '26' }}
           MAX_PER_FEED:       ${{ github.event.inputs.max_per_feed || '5' }}
-          GEMINI_MODEL:       ${{ github.event.inputs.gemini_model || 'gemini-2.5-flash-lite-preview-06-17' }}
+          GEMINI_MODEL:       ${{ github.event.inputs.gemini_model || 'gemini-2.5-flash-lite' }}
         run: python ai_daily_bulletin.py
