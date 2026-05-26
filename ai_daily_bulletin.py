@@ -29,7 +29,7 @@ GEMINI_API_KEY     = os.environ["GEMINI_API_KEY"]
 NOTION_TOKEN       = os.environ["NOTION_TOKEN"]
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "0916313650de4b1e945857fe95734269")
 HOURS_LOOKBACK     = int(os.environ.get("HOURS_LOOKBACK", "26"))
-MAX_PER_FEED       = int(os.environ.get("MAX_PER_FEED", "5"))
+MAX_PER_FEED       = int(os.environ.get("MAX_PER_FEED", "2"))
 
 # Flash-Lite = 1,000 req/día gratis (más que suficiente)
 # Cambia a "gemini-2.5-flash" si quieres más calidad (250 req/día)
