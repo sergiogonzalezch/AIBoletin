@@ -1,0 +1,56 @@
+name: 🤖 AI Daily Bulletin (Free)
+
+on:
+  # 8:00 AM hora Ciudad de México (CDMX = UTC-6 → 14:00 UTC)
+  schedule:
+    - cron: "0 14 * * *"
+
+  # Ejecución manual desde la pestaña Actions
+  workflow_dispatch:
+    inputs:
+      hours_lookback:
+        description: "Horas hacia atrás a revisar (default: 26)"
+        required: false
+        default: "26"
+      max_per_feed:
+        description: "Máximo de items por feed (default: 5)"
+        required: false
+        default: "5"
+      gemini_model:
+        description: "Modelo Gemini a usar"
+        required: false
+        default: "gemini-2.5-flash-lite-preview-06-17"
+        type: choice
+        options:
+          - gemini-2.5-flash-lite-preview-06-17   # 1,000 req/día gratis ← recomendado
+          - gemini-2.5-flash                       # 250 req/día gratis, más calidad
+
+jobs:
+  run-bulletin:
+    name: Generar boletín diario
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 📦 Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: 🚀 Ejecutar AI Daily Bulletin
+        env:
+          GEMINI_API_KEY:     ${{ secrets.GEMINI_API_KEY }}
+          NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          HOURS_LOOKBACK:     ${{ github.event.inputs.hours_lookback || '26' }}
+          MAX_PER_FEED:       ${{ github.event.inputs.max_per_feed || '5' }}
+          GEMINI_MODEL:       ${{ github.event.inputs.gemini_model || 'gemini-2.5-flash-lite-preview-06-17' }}
+        run: python ai_daily_bulletin.py
