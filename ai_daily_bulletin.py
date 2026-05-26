@@ -200,7 +200,7 @@ def process_rss_feeds() -> list[dict]:
             results.append(analysis)
             log.info(f"  ✅ [{analysis.get('relevancia','?')}] {analysis.get('titulo','')[:75]}")
             count += 1
-            time.sleep(1.5)
+            time.sleep(4)
 
     return results
 
@@ -257,7 +257,7 @@ def process_github_releases() -> list[dict]:
             analysis["fuente_original"] = "GitHub"
             results.append(analysis)
             log.info(f"  ✅ [{analysis.get('relevancia','?')}] {analysis.get('titulo','')[:75]}")
-            time.sleep(1.5)
+            time.sleep(4)
 
     return results
 
